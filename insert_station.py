@@ -11,5 +11,5 @@ while True:
     station = data["station"]
     t = data["t"]
     #put the data into redis
-    conn.setex(t, station, 120)
+    conn.hsetnx(t,"station", station)
     sys.stdout.flush()

@@ -11,13 +11,21 @@ while True:
     for m in r.json()["stationBeanList"]:
     	#when a bike is rented extract which station it comes from and how many bikes are
     	#free for renting
+        time_string = m["lastCommunicationTime"]
+        #parse the date based on the format the stream gives it in
+        t = time.strptime(time_string, "%Y-%m-%d %H:%M:%S %p")
+        #convert to epoch time for easier manipulation
+        t = int(time.mktime(t))
+        if t < 0:
+            #sometimes the date comes back as negative-- ignore this
+            continue
         relevant_data = { "station" : m["stationName"], 
         				  "availableBikes" : m["availableBikes"], 
-        				  "t" : str(time.time()) 
+        				  "t" : t 
         				}
 
         print json.dumps(relevant_data)
 
-    stdout.flush()
+        stdout.flush()
     time.sleep(2)
 
