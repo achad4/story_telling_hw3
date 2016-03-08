@@ -9,7 +9,13 @@ conn = redis.Redis()
 
 def histogram_data():
     keys = conn.keys()
-    values = conn.mget(keys)
+    values = []
+    for key in keys:
+        try:
+            r = conn.hget(key, "stationName")
+            values.append(r)
+        except Exception as e:
+            continue
     c = collections.Counter(values)
     z = sum(c.values())
     #data represents the distribution of rentals at different stations
@@ -19,6 +25,11 @@ def histogram_data():
 def histogram():
     return json.dumps(histogram_data())
 
+@app.route("/probability")
+def probability_of_rental_from_station():
+    stationName = request.args.get('stationName', '')
+    distribution = histogram()
+    return json.dumpts({ "probability" : distribution['stationName'] })
 
 @app.route("/entropy")
 def entropy():

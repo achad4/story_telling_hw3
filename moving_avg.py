@@ -24,7 +24,7 @@ while True:
     else:
         rate = 0
 
-    conn.setnx("movingAvgRate", rate)
+    conn.set("movingAvgRate", rate)
     print rate
 
     time.sleep(5)

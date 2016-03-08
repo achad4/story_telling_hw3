@@ -8,7 +8,7 @@ while True:
 	line = sys.stdin.readline()
 	data = json.loads(line)
 	t = float(data["t"])
-	#if there is no previous tweet set the last time to the current time
+	#if there is no previous event set the last time to the current time
 	if last == 0.0:
 		last = t
 		continue
