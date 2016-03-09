@@ -8,7 +8,6 @@ conn = redis.Redis()
 while True:
     deltas = []
 
-    pipe = conn.pipeline()
     keys = conn.keys()
     for key in keys:
         try:
