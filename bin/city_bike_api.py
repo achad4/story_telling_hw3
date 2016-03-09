@@ -3,9 +3,21 @@ import redis
 import collections
 import json
 import numpy as np
+from flask.ext.cors import CORS, cross_origin
 
 app = flask.Flask(__name__)
+CORS(app)
+# app.config['CORS_HEADERS'] = 'Content-Type'
 conn = redis.Redis()
+
+# @app.after_request
+# def after_request(response):
+#   print "yoo"
+#   response.headers.add('Access-Control-Allow-Origin', '*')
+#   response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+#   response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+#   return response
+
 
 def histogram_data():
     keys = conn.keys()
@@ -22,14 +34,17 @@ def histogram_data():
     return {k:v/float(z) for k,v in c.items()}
 
 @app.route("/histogram")
+@cross_origin()
 def histogram():
-    return json.dumps(histogram_data())
+    response = flask.json.jsonify(histogram_data())
+    # resp.headers['Access-Control-Allow-Origin'] = 'x-requested-with'
+    return response
 
 @app.route("/probability")
 def probability_of_rental_from_station():
     stationName = request.args.get('stationName', '')
     distribution = histogram()
-    return json.dumpts({ "probability" : distribution['stationName'] })
+    return flask.json.jsonify({ "probability" : distribution['stationName'] })
 
 @app.route("/entropy")
 def entropy():
@@ -37,15 +52,15 @@ def entropy():
     entropy = 0
     for n in distribution.values():
         entropy = np.log(n)
-    return json.dumps({ "entropy" : -entropy })
+    return flask.json.jsonify({ "entropy" : -entropy })
 
 @app.route("/rate")
 def moving_avg_stream_rate():
     avg_rate = conn.get("movingAvgRate")
     if avg_rate:
-        return json.dumps({"rate" : avg_rate})
+        return flask.json.jsonify({"rate" : avg_rate})
     else:
-        return json.dumps({"rate" : 0})
+        return flask.json.jsonify({"rate" : 0})
 
 if __name__ == "__main__":
     app.debug = True
