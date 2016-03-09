@@ -5,6 +5,7 @@ import json
 import unicodedata
 import re
 import numpy as np
+import city_bike_api
 from flask.ext.cors import CORS, cross_origin
 
 app = flask.Flask(__name__)
