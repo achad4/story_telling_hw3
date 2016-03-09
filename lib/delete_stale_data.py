@@ -9,8 +9,6 @@ conn = redis.Redis()
 while True:
 	keys = conn.keys()
 	current_time = time.time()
-	print keys
-	print current_time
 	for key in keys:
 		try:
 			if(current_time - float(key)  > TTL):

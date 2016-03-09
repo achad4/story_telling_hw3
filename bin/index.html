@@ -17,16 +17,14 @@
            console.log("error");
         }
       });
-      console.log("yooo");
+
       var chart_data = [['Station', 'Rentals']];
       console.log(histogram_data);
       for(key in histogram_data){
-        
         if(!histogram_data.hasOwnProperty){
           continue;
         }
         var n = parseFloat(histogram_data[key]);
-        console.log(n);
         var temp_array = [key, n];
         chart_data.push(temp_array);
       }
@@ -39,12 +37,11 @@
       
       
 
-      //source: https://developers.google.com/chart/interactive/docs/gallery/histogram
       function drawChart() {
         var data = google.visualization.arrayToDataTable(chart_data);
 
         var options = {
-          title: 'City Bike Rentals by Station',
+          title: 'City Bike Rentals in NYC in the Last 10 Minutes',
           legend: { position: 'none' },
           histogram: { bucketSize: 1 }
         };

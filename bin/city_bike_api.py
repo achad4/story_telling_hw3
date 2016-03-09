@@ -2,22 +2,15 @@ import flask
 import redis
 import collections
 import json
+import unicodedata
+import re
 import numpy as np
 from flask.ext.cors import CORS, cross_origin
 
 app = flask.Flask(__name__)
+#this is so the server displaying the distribution can make cross domain requests
 CORS(app)
-# app.config['CORS_HEADERS'] = 'Content-Type'
 conn = redis.Redis()
-
-# @app.after_request
-# def after_request(response):
-#   print "yoo"
-#   response.headers.add('Access-Control-Allow-Origin', '*')
-#   response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-#   response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
-#   return response
-
 
 def histogram_data():
     keys = conn.keys()
@@ -29,8 +22,6 @@ def histogram_data():
         except Exception as e:
             continue
     c = collections.Counter(values)
-    print c
-    z = sum(c.values())
     #data represents the distribution of rentals at different stations
     return {k:v for k,v in c.items()}
 
@@ -43,9 +34,10 @@ def histogram():
 
 @app.route("/probability")
 def probability_of_rental_from_station():
-    stationName = request.args.get('stationName', '')
-    distribution = histogram()
-    return flask.json.jsonify({ "probability" : distribution['stationName'] })
+    stationName = flask.request.args.get('stationName', '')
+    distribution = histogram_data()
+    z = sum(distribution.values())
+    return flask.json.jsonify({ "probability" : float(distribution[stationName])/z })
 
 @app.route("/entropy")
 def entropy():

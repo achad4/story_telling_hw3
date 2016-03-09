@@ -15,6 +15,7 @@ while True:
             deltas.append(float(r))
         except Exception as e:
             #there might not yet be a delta for this time
+            #or the key might be the moving avg itself
             continue
 
 
@@ -24,6 +25,5 @@ while True:
         rate = 0
 
     conn.set("movingAvgRate", rate)
-    print rate
-
+    
     time.sleep(5)
