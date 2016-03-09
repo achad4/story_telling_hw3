@@ -29,9 +29,10 @@ def histogram_data():
         except Exception as e:
             continue
     c = collections.Counter(values)
+    print c
     z = sum(c.values())
     #data represents the distribution of rentals at different stations
-    return {k:v/float(z) for k,v in c.items()}
+    return {k:v for k,v in c.items()}
 
 @app.route("/histogram")
 @cross_origin()
