@@ -7,3 +7,7 @@ stations across the city and how many rentals have occured at each one in the pa
 3. Start the API server ```python bin/city_bike_api.py```
 4. Start the alerting system ```python bin/city_bike_alert_bot.py```
 5. Start the website```python -m SimpleHTTPServer 8080```
+
+Sources:
+1. https://developers.google.com/chart/interactive/docs/gallery/histogram
+2. https://github.com/mikedewar/RealTimeStorytelling/tree/master/3

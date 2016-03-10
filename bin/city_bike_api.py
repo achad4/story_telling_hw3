@@ -30,7 +30,6 @@ def histogram_data():
 @app.route("/post_alert", methods=['POST'])
 def set_alert():
     message = flask.request.form['message']
-    print message
     conn.set('alert', message)
     return 'OK'
 
