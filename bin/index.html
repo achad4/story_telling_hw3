@@ -21,7 +21,7 @@
       var histogram_data;
       $.ajax({
         url: 'http://127.0.0.1:5000/histogram',
-        async: false, 
+        async: false, //this call can't be asynconous because histogram_data is needed right after
         success: function(data) {
           histogram_data = data;
           console.log(histogram_data);
@@ -66,6 +66,6 @@
     </script>
   </head>
   <body>
-    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+    <div id="chart_div" style="width: 900px; height: 900px;"></div>
   </body>
 </html>

@@ -4,7 +4,7 @@ stations across the city and how many rentals have occured at each one in the pa
 
 1. Start the local redis server: ```redis-server /usr/local/etc/redis.conf```
 	Note: if restarting the application, run ```redis-cli flushdb``` to clear old data
-2. Run the pipeline or manually start the programs ```cd bin; ./pipeline.sh```
+2. Run the pipeline or manually start the programs ```cd <path to story_telling_3>/bin; ./pipeline.sh```
 3. Start the API server ```python bin/city_bike_api.py```
 4. Start the alerting system ```python bin/city_bike_alert_bot.py```
 5. Start the website```python -m SimpleHTTPServer 8080```
