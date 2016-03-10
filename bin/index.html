@@ -5,6 +5,19 @@
     <script type="text/javascript">
       
 
+      //upon loading the page, check for alerts in the system
+      $.ajax({
+        url: 'http://127.0.0.1:5000/get_alert',
+        success: function(data) {
+          if(data['alert'] != null){
+            alert(data['alert']);
+          }
+        },
+        error: function() {
+           console.log("error");
+        }
+      });
+
       var histogram_data;
       $.ajax({
         url: 'http://127.0.0.1:5000/histogram',
@@ -12,19 +25,6 @@
         success: function(data) {
           histogram_data = data;
           console.log(histogram_data);
-        },
-        error: function() {
-           console.log("error");
-        }
-      });
-
-      $.ajax({
-        url: 'http://127.0.0.1:5000/get_alert',
-        async: false, 
-        success: function(data) {
-          if(data['alert'] != null){
-            alert(data['alert']);
-          }
         },
         error: function() {
            console.log("error");
