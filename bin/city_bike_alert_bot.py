@@ -1,7 +1,9 @@
 import sys
 import json
 import redis
-import city_bike_api 
+import urllib
+import urllib2
+import time 
 from twitter import Twitter, OAuth, TwitterHTTPError
 
 
@@ -13,10 +15,24 @@ CONSUMER_SECRET = 'j0gyjgEsVbcQ2Lm5sETdEjnlsJTfcFOeJIkJZxSJpj7y64sxXG'
 oauth = OAuth(ACCESS_TOKEN, ACCESS_SECRET, CONSUMER_KEY, CONSUMER_SECRET)
 
 api = Twitter(auth=oauth)
-previous_entropy = city_bike_api.entropy()
-current_entropy = city_bike_api.entropy()
+response = json.loads(urllib2.urlopen("http://127.0.0.1:5000/entropy").read())
+previous_entropy = response['entropy']
+current_entropy = response['entropy']
 while True:
-	print current_entropy
+	delta = current_entropy - previous_entropy
+	print delta
+	# if(abs(delta) > 0.01):
+	if(True):
+		data = urllib.urlencode({'message' : 'Entropy changed'})
+		u = urllib2.urlopen('http://127.0.0.1:5000/post_alert', data)
+
+	response = json.loads(urllib2.urlopen("http://127.0.0.1:5000/entropy").read())
+	previous_entropy = current_entropy
+	current_entropy = response['entropy']
+	time.sleep(5)
+	
+
+
 	# line = sys.stdin.readline()
 	# json_data = json.loads(line)
 	# avg_tweet_rate = json_data["avg_tweet_rat"]
@@ -34,3 +50,4 @@ while True:
 	# 	api.statuses.update(status="No one's talking about TLOP :/")
 	# 	alert["popularity"] = -1
 	# sys.stdout.flush()
+	

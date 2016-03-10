@@ -18,6 +18,20 @@
         }
       });
 
+      $.ajax({
+        url: 'http://127.0.0.1:5000/get_alert',
+        async: false, 
+        success: function(data) {
+          if(data['alert'] != null){
+            alert(data['alert']);
+          }
+        },
+        error: function() {
+           console.log("error");
+        }
+      });
+
+
       var chart_data = [['Station', 'Rentals']];
       console.log(histogram_data);
       for(key in histogram_data){

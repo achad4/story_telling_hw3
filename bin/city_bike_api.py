@@ -26,11 +26,27 @@ def histogram_data():
     #data represents the distribution of rentals at different stations
     return {k:v for k,v in c.items()}
 
+
+@app.route("/post_alert", methods=['POST'])
+def set_alert():
+    message = flask.request.form['message']
+    print message
+    conn.set('alert', message)
+    return 'OK'
+
+@app.route("/get_alert")
+def get_alert():
+    alert = conn.get('alert')
+    #after whatever reporting system accesses the most recent alert, it's not needed anymore
+    conn.delete('alert')
+    if(alert):
+        return flask.json.jsonify({ "alert" : alert } )
+    return flask.json.jsonify({ "alert" : None } )
+
 @app.route("/histogram")
 @cross_origin()
 def histogram():
     response = flask.json.jsonify(histogram_data())
-    # resp.headers['Access-Control-Allow-Origin'] = 'x-requested-with'
     return response
 
 @app.route("/probability")
@@ -44,8 +60,9 @@ def probability_of_rental_from_station():
 def entropy():
     distribution = histogram_data()
     entropy = 0
+    z = sum(distribution.values())
     for n in distribution.values():
-        entropy = np.log(n)
+        entropy = entropy + float(n)/z * np.log(float(n)/z)
     return flask.json.jsonify({ "entropy" : -entropy })
 
 @app.route("/rate")
