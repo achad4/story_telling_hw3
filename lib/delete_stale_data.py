@@ -14,7 +14,7 @@ while True:
 			if(current_time - float(key)  > TTL):
 				conn.delete(key)
 		except ValueError as e:
-			#if you come across the "movingAvgRate" key, ignore it
+			#if you come across the "movingAvgRate" or "alert" key, ignore it
 			continue;
 
 	time.sleep(5)
