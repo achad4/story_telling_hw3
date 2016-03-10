@@ -23,6 +23,8 @@ while True:
 
 
     if delta != 0:
+        #if there is a change in the number of available bikes at a station,
+        #we have a rental event: store it!
         conn.hset(t, "stationName", stationName)
         print json.dumps({'t' : t, 'stationName': stationName})
         sys.stdout.flush()
