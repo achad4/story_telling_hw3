@@ -1,3 +1,5 @@
+Motivation:  New Yorkers love city bikes, and I was just curious as to where bike rentals are concentrated and how consistent this concentration is-- which is why the system alerts on changes in the entropy of the categorical distribution of rentals across the city.  Run it for yourself with the instructions provided and check out how New Yorkers are using their city bikes.  
+
 This program takes in a stream of city bike  data from www.citibikenyc.com and looks for changes in the
 number of available bikes (bike rental events).  Using the API, the website displays a histogram of the different
 stations across the city and how many rentals have occured at each one in the past 10 minutes.
